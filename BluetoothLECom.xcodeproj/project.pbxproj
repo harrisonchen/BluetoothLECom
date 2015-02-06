@@ -13,6 +13,8 @@
 		84DBAE121A853CB7005A2E31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84DBAE111A853CB7005A2E31 /* Images.xcassets */; };
 		84DBAE151A853CB7005A2E31 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84DBAE131A853CB7005A2E31 /* LaunchScreen.xib */; };
 		84DBAE211A853CB8005A2E31 /* BluetoothLEComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBAE201A853CB8005A2E31 /* BluetoothLEComTests.swift */; };
+		84DBAE2D1A855378005A2E31 /* SGDCentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBAE2C1A855378005A2E31 /* SGDCentralViewController.swift */; };
+		84DBAE2F1A85538C005A2E31 /* SGDPeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBAE2E1A85538C005A2E31 /* SGDPeripheralViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		84DBAE1A1A853CB8005A2E31 /* BluetoothLEComTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothLEComTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DBAE1F1A853CB8005A2E31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DBAE201A853CB8005A2E31 /* BluetoothLEComTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothLEComTests.swift; sourceTree = "<group>"; };
+		84DBAE2C1A855378005A2E31 /* SGDCentralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGDCentralViewController.swift; sourceTree = "<group>"; };
+		84DBAE2E1A85538C005A2E31 /* SGDPeripheralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGDPeripheralViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			children = (
 				84DBAE0A1A853CB7005A2E31 /* AppDelegate.swift */,
 				84DBAE0C1A853CB7005A2E31 /* ViewController.swift */,
+				84DBAE2C1A855378005A2E31 /* SGDCentralViewController.swift */,
+				84DBAE2E1A85538C005A2E31 /* SGDPeripheralViewController.swift */,
 				84DBAE0E1A853CB7005A2E31 /* Main.storyboard */,
 				84DBAE111A853CB7005A2E31 /* Images.xcassets */,
 				84DBAE131A853CB7005A2E31 /* LaunchScreen.xib */,
@@ -214,6 +220,8 @@
 			files = (
 				84DBAE0D1A853CB7005A2E31 /* ViewController.swift in Sources */,
 				84DBAE0B1A853CB7005A2E31 /* AppDelegate.swift in Sources */,
+				84DBAE2D1A855378005A2E31 /* SGDCentralViewController.swift in Sources */,
+				84DBAE2F1A85538C005A2E31 /* SGDPeripheralViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +415,7 @@
 				84DBAE261A853CB8005A2E31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84DBAE271A853CB8005A2E31 /* Build configuration list for PBXNativeTarget "BluetoothLEComTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +424,7 @@
 				84DBAE291A853CB8005A2E31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

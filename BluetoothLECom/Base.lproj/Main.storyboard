@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="439.5" y="363.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Central View Controller-->
         <scene sceneID="8dD-w4-3ch">
             <objects>
-                <viewController id="7dc-FA-nRL" sceneMemberID="viewController">
+                <viewController id="7dc-FA-nRL" customClass="SGDCentralViewController" customModule="BluetoothLECom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1f0-CS-Rp6"/>
                         <viewControllerLayoutGuide type="bottom" id="YE9-To-RLQ"/>
@@ -120,15 +120,18 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="textView" destination="jRB-W3-144" id="akU-uf-QYj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NiW-17-uQe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="950.5" y="22.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Peripheral View Controller-->
         <scene sceneID="103-5S-Av1">
             <objects>
-                <viewController id="RUy-Y0-0mX" sceneMemberID="viewController">
+                <viewController id="RUy-Y0-0mX" customClass="SGDPeripheralViewController" customModule="BluetoothLECom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fkS-lj-Hu2"/>
                         <viewControllerLayoutGuide type="bottom" id="h0q-J0-VIM"/>
@@ -235,6 +238,10 @@
                         </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="sendData" destination="I3h-hh-YXt" id="GWc-C9-qq2"/>
+                        <outlet property="textView" destination="hRd-Ll-xmW" id="0SA-Id-XMb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tmp-iq-O2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
