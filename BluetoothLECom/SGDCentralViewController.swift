@@ -14,17 +14,24 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     @IBOutlet var textView: UITextView!
     var centralManager:CBCentralManager!
     var discoveredPeripheral:CBPeripheral!
-    var data:NSMutableData
+    var data:NSMutableData!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        centralManager = CBCentralManager(delegate: self, queue: nil)
+        data = NSMutableData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
+        centralManager.stopScan()
+        println("Scanning Stopped")
+        super.viewWillDisappear(true)
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager!) {
@@ -37,7 +44,7 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     }
     
     func scan() {
-        centralManager.scanForPeripheralsWithServices([CBUUID(string: TRANSFER_SERVICE_UUID))], options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
+        centralManager.scanForPeripheralsWithServices([CBUUID(string: TRANSFER_SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
         
         println("Scanning started")
     }
@@ -149,7 +156,27 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     }
     
     func cleanup() {
-        if !discoveredPeripheral.sta
+        
+        if discoveredPeripheral.state == CBPeripheralState.Connected {
+            return
+        }
+        
+        if discoveredPeripheral.services != nil {
+            for service in discoveredPeripheral.services {
+                if service.characteristic != nil {
+                    for characteristic in (service as CBService).characteristics {
+                        if (characteristic as CBCharacteristic).UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID)) {
+                            if (characteristic as CBCharacteristic).isNotifying {
+                                discoveredPeripheral.setNotifyValue(false, forCharacteristic: characteristic as CBCharacteristic)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        centralManager.cancelPeripheralConnection(discoveredPeripheral)
     }
     
 

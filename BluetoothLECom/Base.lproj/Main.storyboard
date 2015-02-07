@@ -189,6 +189,9 @@
                                         <exclude reference="znt-vZ-2kx"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="sendData:" destination="RUy-Y0-0mX" eventType="touchUpInside" id="3Dn-tn-cEK"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.16762696760000001" green="0.60596917009999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -239,7 +242,6 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="sendData" destination="I3h-hh-YXt" id="GWc-C9-qq2"/>
                         <outlet property="textView" destination="hRd-Ll-xmW" id="0SA-Id-XMb"/>
                     </connections>
                 </viewController>
