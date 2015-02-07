@@ -11,9 +11,7 @@ import CoreBluetooth
 
 class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate, UITextViewDelegate {
     
-    @IBAction func sendData(sender: AnyObject) {
-        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
-    }
+
     @IBOutlet var textView: UITextView!
     var peripheralManager:CBPeripheralManager!
     var transferCharacteristic:CBMutableCharacteristic!
@@ -21,6 +19,11 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
     var sendDataIndex:Int!
     var sendingEOM:Bool = false
     let MAX_TRANSFER_DATA_LENGTH:Int = 20
+    
+    @IBAction func sendData(sender: AnyObject) {
+        println("\(peripheralManager)")
+        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

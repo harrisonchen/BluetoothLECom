@@ -51,14 +51,14 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     
     func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: [NSObject : AnyObject]!, RSSI: NSNumber!) {
         
-        println(RSSI)
+        println("RSSI: \(RSSI)")
         
-        println("Discovered: " + peripheral.name, RSSI)
+        println("Discovered: \(peripheral)")
         
         if discoveredPeripheral != peripheral {
             discoveredPeripheral = peripheral
             
-            println("Connecting to peripheral: " + peripheral.name)
+            println("Connecting to peripheral: \(peripheral)")
             centralManager.connectPeripheral(peripheral, options: nil)
         }
     }
