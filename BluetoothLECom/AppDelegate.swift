@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var textField = UITextField()
         window?.addSubview(textField)
+        textField.hidden = true
+        textField.userInteractionEnabled = false
         textField.becomeFirstResponder()
         textField.resignFirstResponder()
-        textField.hidden = true
-//        textField.removeFromSuperview()
         
         return true
     }

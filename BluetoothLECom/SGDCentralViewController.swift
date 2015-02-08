@@ -25,11 +25,15 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         data = NSMutableData()
     }
     
-//    override func viewWillDisappear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        data.length = 0
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
 //        centralManager.stopScan()
 //        println("Scanning Stopped")
-//        super.viewWillDisappear(true)
-//    }
+        super.viewWillDisappear(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -130,16 +134,18 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         
         println("HEREEEEEEEE")
         if (stringFromData! == "EOM") {
-            println("data: \(data)")
             textView.text = NSString(data: data, encoding: NSUTF8StringEncoding)
-            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
-            centralManager.cancelPeripheralConnection(peripheral)
+            println("data: " + textView.text!)
+            data.length = 0
+//            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
+//            centralManager.cancelPeripheralConnection(peripheral)
         }
-        
-        data.appendData(characteristic.value)
-        println("appendData: \(NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)!)")
-        
-        println("Received: " + stringFromData!)
+        else {
+            data.appendData(characteristic.value)
+            println("appendData: \(NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)!)")
+            
+            println("Received: " + stringFromData!)
+        }
     }
     
     func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {

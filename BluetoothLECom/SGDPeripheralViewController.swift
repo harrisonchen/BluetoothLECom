@@ -21,8 +21,12 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
     let MAX_TRANSFER_DATA_LENGTH:Int = 20
     
     @IBAction func sendData(sender: AnyObject) {
-        println("\(peripheralManager)")
-        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
+        println("sendData()")
+        dataToSend = textView.text.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        sendDataIndex = 0
+        
+        transferData()
     }
     
     override func viewDidLoad() {
@@ -35,18 +39,22 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         
-        
+        println("here~~~~~~")
     }
-//    
-//    override func viewWillDisappear(animated: Bool) {
-//        peripheralManager.stopAdvertising()
-//        
-//        super.viewWillDisappear(true)
-//    }
-//    
-//    override func viewDidDisappear(animated: Bool) {
-//        
-//    }
+    
+    override func viewDidAppear(animated: Bool) {
+        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        peripheralManager.stopAdvertising()
+        
+        super.viewWillDisappear(true)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,11 +82,7 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
         
         println("Central subscribed to characteristic: \(characteristic)")
         
-        dataToSend = textView.text.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        sendDataIndex = 0
-        
-        transferData()
+
     }
     
     func peripheralManager(peripheral: CBPeripheralManager!, central: CBCentral!, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic!) {
@@ -96,6 +100,7 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
                 
                 sendingEOM = false
                 println("sending EOM")
+                peripheralManager.stopAdvertising()
             }
             
             return
@@ -153,14 +158,6 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
     func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager!) {
         println("ready to transfer")
         transferData()
-    }
-    
-    func textViewDidChange(textView: UITextView) {
-        println("textviewchange")
-        if peripheralManager.isAdvertising {
-//            peripheralManager.stopAdvertising()
-            println("here")
-        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
