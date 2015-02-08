@@ -11,16 +11,33 @@ import CoreBluetooth
 
 class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
+    @IBOutlet var scanSwitch: UISwitch!
     @IBOutlet var textView: UITextView!
     var centralManager:CBCentralManager!
     var discoveredPeripheral:CBPeripheral!
     var data:NSMutableData!
 
+    @IBAction func toggleScan(sender: AnyObject) {
+        if centralManager.state == CBCentralManagerState.PoweredOn {
+            if scanSwitch.on {
+                scan()
+            }
+            else {
+                centralManager.stopScan()
+                println("stop scanning")
+            }
+        }
+        else {
+            println("centralmanager not ready")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        scanSwitch.on = false
         centralManager = CBCentralManager(delegate: self, queue: nil)
         data = NSMutableData()
     }
@@ -30,8 +47,6 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     }
     
     override func viewWillDisappear(animated: Bool) {
-//        centralManager.stopScan()
-//        println("Scanning Stopped")
         super.viewWillDisappear(true)
     }
 
@@ -41,12 +56,14 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager!) {
+
+        if central.state == CBCentralManagerState.PoweredOn {
+            println("CBCentralManagerState PoweredOn")
+        }
         
         if central.state != CBCentralManagerState.PoweredOn {
             return
         }
-        
-        scan()
     }
     
     func scan() {
@@ -72,17 +89,13 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
       
         
-        println("Failed to connect to peripheral: " + peripheral.name + " -> " + error.localizedDescription)
+        println("Failed to connect to peripheral: \(peripheral)" + error.localizedDescription)
         cleanup()
     }
     
     func centralManager(central: CBCentralManager!, didConnectPeripheral peripheral: CBPeripheral!) {
         
-        println("Peripheral Connect")
-        println("Peripheral: \(peripheral)")
-        
-        centralManager.stopScan()
-        println("Stopped Scanning")
+        println("Connected to peripheral: \(peripheral)")
         
         data.length = 0
         
@@ -172,7 +185,6 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         
         println("Peripheral Disconnected")
         discoveredPeripheral = nil
-        scan()
     }
     
     func cleanup() {
