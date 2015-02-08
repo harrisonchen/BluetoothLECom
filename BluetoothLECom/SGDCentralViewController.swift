@@ -149,6 +149,7 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         if (stringFromData! == "EOM") {
             textView.text = NSString(data: data, encoding: NSUTF8StringEncoding)
             println("data: " + textView.text!)
+            println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
             data.length = 0
 //            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
 //            centralManager.cancelPeripheralConnection(peripheral)

@@ -43,11 +43,13 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
     }
     
     override func viewDidAppear(animated: Bool) {
-        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
+        if !peripheralManager.isAdvertising {
+            peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
-        peripheralManager.stopAdvertising()
+//        peripheralManager.stopAdvertising()
         
         super.viewWillDisappear(true)
     }
