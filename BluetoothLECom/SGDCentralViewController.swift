@@ -24,14 +24,16 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         centralManager = CBCentralManager(delegate: self, queue: nil)
         data = NSMutableData()
     }
+    
+//    override func viewWillDisappear(animated: Bool) {
+//        centralManager.stopScan()
+//        println("Scanning Stopped")
+//        super.viewWillDisappear(true)
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        
-        centralManager.stopScan()
-        println("Scanning Stopped")
-        super.viewWillDisappear(true)
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager!) {
@@ -64,6 +66,7 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     }
     
     func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
+      
         
         println("Failed to connect to peripheral: " + peripheral.name + " -> " + error.localizedDescription)
         cleanup()
@@ -72,6 +75,7 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     func centralManager(central: CBCentralManager!, didConnectPeripheral peripheral: CBPeripheral!) {
         
         println("Peripheral Connect")
+        println("Peripheral: \(peripheral)")
         
         centralManager.stopScan()
         println("Stopped Scanning")
@@ -101,8 +105,14 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
             cleanup()
             return
         }
+        
+        println("didDiscoverCharacteristicsForService: \(service)")
+        
         for characteristic in service.characteristics {
-            if (characteristic as CBCharacteristic).UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID)) {
+            println("1>>>>>> \(characteristic as CBCharacteristic)")
+            println("2>>>>>> \(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID))")
+            if ((characteristic as CBCharacteristic).UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID))) {
+                println("characteristic discovered: \(characteristic)")
                 peripheral .setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
             }
         }
@@ -117,13 +127,17 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         
         var stringFromData = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)
         
+        
+        println("HEREEEEEEEE")
         if (stringFromData! == "EOM") {
+            println("data: \(data)")
             textView.text = NSString(data: data, encoding: NSUTF8StringEncoding)
             peripheral.setNotifyValue(false, forCharacteristic: characteristic)
             centralManager.cancelPeripheralConnection(peripheral)
         }
         
         data.appendData(characteristic.value)
+        println("appendData: \(NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)!)")
         
         println("Received: " + stringFromData!)
     }
@@ -158,10 +172,12 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
     func cleanup() {
         
         if discoveredPeripheral.state == CBPeripheralState.Connected {
+            println("cleanup: 1")
             return
         }
         
         if discoveredPeripheral.services != nil {
+            println("cleanup: 2")
             for service in discoveredPeripheral.services {
                 if service.characteristic != nil {
                     for characteristic in (service as CBService).characteristics {
