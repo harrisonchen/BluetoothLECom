@@ -9,26 +9,17 @@
 import UIKit
 import CoreBluetooth
 
-class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+class SGDCentralViewController: UIViewController {
     
     @IBOutlet var scanSwitch: UISwitch!
     @IBOutlet var textView: UITextView!
-    var centralManager:CBCentralManager!
-    var discoveredPeripheral:CBPeripheral!
-    var data:NSMutableData!
 
     @IBAction func toggleScan(sender: AnyObject) {
-        if centralManager.state == CBCentralManagerState.PoweredOn {
-            if scanSwitch.on {
-                scan()
-            }
-            else {
-                centralManager.stopScan()
-                println("stop scanning")
-            }
+        if scanSwitch.on {
+            bleCentral.startScan()
         }
         else {
-            println("centralmanager not ready")
+            bleCentral.stopScan()
         }
     }
     
@@ -38,16 +29,6 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         // Do any additional setup after loading the view.
         
         scanSwitch.on = false
-        centralManager = CBCentralManager(delegate: self, queue: nil)
-        data = NSMutableData()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        data.length = 0
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,165 +36,9 @@ class SGDCentralViewController: UIViewController, CBCentralManagerDelegate, CBPe
         // Dispose of any resources that can be recreated.
     }
     
-    func centralManagerDidUpdateState(central: CBCentralManager!) {
-
-        if central.state == CBCentralManagerState.PoweredOn {
-            println("CBCentralManagerState PoweredOn")
-        }
-        
-        if central.state != CBCentralManagerState.PoweredOn {
-            return
-        }
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.view.endEditing(true)
     }
-    
-    func scan() {
-        centralManager.scanForPeripheralsWithServices([CBUUID(string: TRANSFER_SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
-        
-        println("Scanning started")
-    }
-    
-    func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: [NSObject : AnyObject]!, RSSI: NSNumber!) {
-        
-        println("RSSI: \(RSSI)")
-        
-        println("Discovered: \(peripheral)")
-        
-        if discoveredPeripheral != peripheral {
-            discoveredPeripheral = peripheral
-            
-            println("Connecting to peripheral: \(peripheral)")
-            centralManager.connectPeripheral(peripheral, options: nil)
-        }
-    }
-    
-    func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-      
-        
-        println("Failed to connect to peripheral: \(peripheral)" + error.localizedDescription)
-        cleanup()
-    }
-    
-    func centralManager(central: CBCentralManager!, didConnectPeripheral peripheral: CBPeripheral!) {
-        
-        println("Connected to peripheral: \(peripheral)")
-        
-        data.length = 0
-        
-        peripheral.delegate = self
-        
-        peripheral.discoverServices([CBUUID(string: TRANSFER_SERVICE_UUID)])
-    }
-    
-    func peripheral(peripheral: CBPeripheral!, didDiscoverServices error: NSError!) {
-        if error != nil {
-            println("Error discovering services: " + error.localizedDescription)
-            return
-        }
-        
-        for service in peripheral.services {
-            peripheral.discoverCharacteristics([CBUUID(string: TRANSFER_CHARACTERISTIC_UUID)], forService: service as CBService)
-        }
-    }
-    
-    func peripheral(peripheral: CBPeripheral!, didDiscoverCharacteristicsForService service: CBService!, error: NSError!) {
-        
-        if error != nil {
-            println("Error discovering characteristics: " + error.localizedDescription)
-            cleanup()
-            return
-        }
-        
-        println("didDiscoverCharacteristicsForService: \(service)")
-        
-        for characteristic in service.characteristics {
-            println("1>>>>>> \(characteristic as CBCharacteristic)")
-            println("2>>>>>> \(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID))")
-            if ((characteristic as CBCharacteristic).UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID))) {
-                println("characteristic discovered: \(characteristic)")
-                peripheral .setNotifyValue(true, forCharacteristic: characteristic as CBCharacteristic)
-            }
-        }
-    }
-    
-    func peripheral(peripheral: CBPeripheral!, didUpdateValueForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
-        
-        if error != nil {
-            println("Error discovering characteristics: " + error.localizedDescription)
-            return
-        }
-        
-        var stringFromData = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)
-        
-        
-        println("HEREEEEEEEE")
-        if (stringFromData! == "EOM") {
-            textView.text = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("data: " + textView.text!)
-            println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            data.length = 0
-//            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
-//            centralManager.cancelPeripheralConnection(peripheral)
-        }
-        else {
-            data.appendData(characteristic.value)
-            println("appendData: \(NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)!)")
-            
-            println("Received: " + stringFromData!)
-        }
-    }
-    
-    func peripheral(peripheral: CBPeripheral!, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic!, error: NSError!) {
-        
-        if error != nil {
-            println("Error changing notification state: " + error.localizedDescription)
-            return
-        }
-        
-        if !characteristic.UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID)) {
-            return
-        }
-        
-        if characteristic.isNotifying {
-            println("Notification began on: \(characteristic)")
-        }
-        else {
-            println("Notification stopped on: \(characteristic). Disconnecting")
-            centralManager.cancelPeripheralConnection(peripheral)
-        }
-    }
-    
-    func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-        
-        println("Peripheral Disconnected")
-        discoveredPeripheral = nil
-    }
-    
-    func cleanup() {
-        
-        if discoveredPeripheral.state == CBPeripheralState.Connected {
-            println("cleanup: 1")
-            return
-        }
-        
-        if discoveredPeripheral.services != nil {
-            println("cleanup: 2")
-            for service in discoveredPeripheral.services {
-                if service.characteristic != nil {
-                    for characteristic in (service as CBService).characteristics {
-                        if (characteristic as CBCharacteristic).UUID.isEqual(CBUUID(string: TRANSFER_CHARACTERISTIC_UUID)) {
-                            if (characteristic as CBCharacteristic).isNotifying {
-                                discoveredPeripheral.setNotifyValue(false, forCharacteristic: characteristic as CBCharacteristic)
-                                return
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        centralManager.cancelPeripheralConnection(discoveredPeripheral)
-    }
-    
 
     /*
     // MARK: - Navigation

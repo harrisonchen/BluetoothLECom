@@ -9,6 +9,8 @@
 import Foundation
 import CoreBluetooth
 
+let bleCentral = BLECentral()
+
 class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     var centralManager: CBCentralManager!

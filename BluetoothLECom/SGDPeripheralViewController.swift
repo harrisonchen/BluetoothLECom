@@ -9,53 +9,25 @@
 import UIKit
 import CoreBluetooth
 
-class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate, UITextViewDelegate {
+class SGDPeripheralViewController: UIViewController, UITextViewDelegate {
     
-
     @IBOutlet var textView: UITextView!
-    var peripheralManager:CBPeripheralManager!
-    var transferCharacteristic:CBMutableCharacteristic!
-    var dataToSend:NSData!
-    var sendDataIndex:Int!
-    var sendingEOM:Bool = false
-    let MAX_TRANSFER_DATA_LENGTH:Int = 20
     
     @IBAction func sendData(sender: AnyObject) {
-        println("sendData()")
-        dataToSend = textView.text.dataUsingEncoding(NSUTF8StringEncoding)
+        var dataToSend = textView.text.dataUsingEncoding(NSUTF8StringEncoding)
         
-        sendDataIndex = 0
-        
-        transferData()
+        blePeripheral.sendDataToPeripheral(dataToSend!)
     }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         textView.delegate = self
-        
-        peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
-        
-        println("here~~~~~~")
     }
     
     override func viewDidAppear(animated: Bool) {
-        if !peripheralManager.isAdvertising {
-            peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-//        peripheralManager.stopAdvertising()
-        
-        super.viewWillDisappear(true)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-
+        blePeripheral.startAdvertisingToPeripheral()
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,107 +35,7 @@ class SGDPeripheralViewController: UIViewController, CBPeripheralManagerDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager!) {
-        
-        if peripheral.state != CBPeripheralManagerState.PoweredOn {
-            return
-        }
-        
-        println("self.peripheralManager powered on.")
-        
-        transferCharacteristic = CBMutableCharacteristic(type: CBUUID(string: TRANSFER_CHARACTERISTIC_UUID), properties: CBCharacteristicProperties.Notify, value: nil, permissions: CBAttributePermissions.Readable)
-        
-        var transferService = CBMutableService(type: CBUUID(string: TRANSFER_SERVICE_UUID), primary: true)
-        
-        transferService.characteristics = [transferCharacteristic]
-        
-        peripheralManager.addService(transferService)
-    }
-    
-    func peripheralManager(peripheral: CBPeripheralManager!, central: CBCentral!, didSubscribeToCharacteristic characteristic: CBCharacteristic!) {
-        
-        println("Central subscribed to characteristic: \(characteristic)")
-        
-
-    }
-    
-    func peripheralManager(peripheral: CBPeripheralManager!, central: CBCentral!, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic!) {
-        
-        println("Central unsubscribed from characteristic")
-    }
-    
-    func transferData() {
-        
-        if sendingEOM {
-            
-            var didSend:Bool = peripheralManager.updateValue("EOM".dataUsingEncoding(NSUTF8StringEncoding), forCharacteristic: transferCharacteristic, onSubscribedCentrals: nil)
-            
-            if didSend {
-                
-                sendingEOM = false
-                println("sending EOM")
-                peripheralManager.stopAdvertising()
-            }
-            
-            return
-        }
-        
-        if sendDataIndex >= dataToSend.length {
-            println("BLAHBLAH")
-            return
-        }
-        
-        var didSend:Bool = true
-        
-        while(didSend) {
-            println("dataToSend: \(NSString(data: dataToSend, encoding: NSUTF8StringEncoding)!), sendDataIndex: \(sendDataIndex)")
-            var amountToSend:Int = dataToSend.length - sendDataIndex
-            println("amountToSend \(amountToSend)")
-            
-            if amountToSend > MAX_TRANSFER_DATA_LENGTH {
-                amountToSend = MAX_TRANSFER_DATA_LENGTH
-            }
-
-            var chunk = NSData(bytes: dataToSend.bytes + sendDataIndex, length: amountToSend)
-            println("chunk: \(NSString(data: chunk, encoding: NSUTF8StringEncoding)!)")
-            println("Right here bae: transferData()")
-            didSend = peripheralManager.updateValue(chunk, forCharacteristic: transferCharacteristic, onSubscribedCentrals: nil)
-            
-            if !didSend {
-                println("didnotsend")
-                return;
-            }
-            
-            var stringFromData = NSString(data: chunk, encoding: NSUTF8StringEncoding)
-            println("Sent" + stringFromData!)
-            
-            sendDataIndex = sendDataIndex + amountToSend
-            
-            if sendDataIndex >= dataToSend.length {
-                
-                println("doing it")
-                
-                sendingEOM = true
-                
-                var eomSent = peripheralManager.updateValue("EOM".dataUsingEncoding(NSUTF8StringEncoding), forCharacteristic: transferCharacteristic, onSubscribedCentrals: nil)
-                
-                if eomSent {
-                    sendingEOM = false
-                    println("send EOM")
-                }
-                
-                return
-            }
-        }
-    }
-    
-    func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager!) {
-        println("ready to transfer")
-        transferData()
-    }
-    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-
         self.view.endEditing(true)
     }
 

@@ -9,6 +9,8 @@
 import Foundation
 import CoreBluetooth
 
+let blePeripheral = BLEPeripheral()
+
 class BLEPeripheral: NSObject, CBPeripheralManagerDelegate {
     
     var peripheralManager: CBPeripheralManager!
@@ -29,7 +31,7 @@ class BLEPeripheral: NSObject, CBPeripheralManagerDelegate {
         transferData()
     }
     
-    func advertiseToPeripheral() {
+    func startAdvertisingToPeripheral() {
         if !peripheralManager.isAdvertising {
             peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [CBUUID(string: TRANSFER_SERVICE_UUID)]])
         }
