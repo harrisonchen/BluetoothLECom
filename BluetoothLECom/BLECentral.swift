@@ -98,6 +98,7 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         var stringFromData = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)
         
         if (stringFromData! == "EOM") {
+            println("Data Received: \(data)")
             data.length = 0
             //            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
             //            centralManager.cancelPeripheralConnection(peripheral)
