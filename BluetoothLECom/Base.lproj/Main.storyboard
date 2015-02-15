@@ -193,10 +193,10 @@
             </objects>
             <point key="canvasLocation" x="950.5" y="22.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Lobby View Controller-->
         <scene sceneID="Hgi-S9-pip">
             <objects>
-                <viewController id="FBx-m7-eYn" sceneMemberID="viewController">
+                <viewController id="FBx-m7-eYn" customClass="HCLobbyViewController" customModule="BluetoothLECom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ogx-3M-RVJ"/>
                         <viewControllerLayoutGuide type="bottom" id="OB2-6B-9Sh"/>

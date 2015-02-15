@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8485478D1A8D1E24005B41C3 /* BLEPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485478C1A8D1E24005B41C3 /* BLEPeripheral.swift */; };
 		8485478F1A8D1E2E005B41C3 /* BLECentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485478E1A8D1E2E005B41C3 /* BLECentral.swift */; };
+		84D6F4681A906B6900A4FEB8 /* HCLobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D6F4671A906B6900A4FEB8 /* HCLobbyViewController.swift */; };
 		84DBAE0B1A853CB7005A2E31 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBAE0A1A853CB7005A2E31 /* AppDelegate.swift */; };
 		84DBAE0D1A853CB7005A2E31 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBAE0C1A853CB7005A2E31 /* ViewController.swift */; };
 		84DBAE101A853CB7005A2E31 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84DBAE0E1A853CB7005A2E31 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		8485478C1A8D1E24005B41C3 /* BLEPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEPeripheral.swift; sourceTree = "<group>"; };
 		8485478E1A8D1E2E005B41C3 /* BLECentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLECentral.swift; sourceTree = "<group>"; };
+		84D6F4671A906B6900A4FEB8 /* HCLobbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HCLobbyViewController.swift; sourceTree = "<group>"; };
 		84DBAE051A853CB7005A2E31 /* BluetoothLECom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothLECom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DBAE091A853CB7005A2E31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DBAE0A1A853CB7005A2E31 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				848547891A8D191C005B41C3 /* Classes */,
 				84DBAE0A1A853CB7005A2E31 /* AppDelegate.swift */,
 				84DBAE0C1A853CB7005A2E31 /* ViewController.swift */,
+				84D6F4671A906B6900A4FEB8 /* HCLobbyViewController.swift */,
 				84DBAE2C1A855378005A2E31 /* SGDCentralViewController.swift */,
 				84DBAE2E1A85538C005A2E31 /* SGDPeripheralViewController.swift */,
 				84DBAE0E1A853CB7005A2E31 /* Main.storyboard */,
@@ -237,6 +240,7 @@
 				8485478F1A8D1E2E005B41C3 /* BLECentral.swift in Sources */,
 				84DBAE0B1A853CB7005A2E31 /* AppDelegate.swift in Sources */,
 				84DBAE2D1A855378005A2E31 /* SGDCentralViewController.swift in Sources */,
+				84D6F4681A906B6900A4FEB8 /* HCLobbyViewController.swift in Sources */,
 				84DBAE2F1A85538C005A2E31 /* SGDPeripheralViewController.swift in Sources */,
 				8485478D1A8D1E24005B41C3 /* BLEPeripheral.swift in Sources */,
 			);

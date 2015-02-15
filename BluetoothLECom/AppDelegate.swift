@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        var bleCentral: BLECentral = BLECentral.sharedInstance
+        var blePeripheral: BLEPeripheral = BLEPeripheral.sharedInstance
+        
         var textField = UITextField()
         window?.addSubview(textField)
         textField.hidden = true

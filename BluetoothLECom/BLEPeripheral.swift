@@ -23,6 +23,13 @@ class BLEPeripheral: NSObject, CBPeripheralManagerDelegate {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
+    class var sharedInstance: BLEPeripheral {
+        struct Static {
+            static let instance: BLEPeripheral = BLEPeripheral()
+        }
+        return Static.instance
+    }
+    
     func sendDataToPeripheral(data: NSData) {
         dataToSend = data
         sendDataIndex = 0
