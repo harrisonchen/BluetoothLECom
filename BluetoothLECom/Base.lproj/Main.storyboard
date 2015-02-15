@@ -47,10 +47,23 @@
                                     <segue destination="RUy-Y0-0mX" kind="show" id="fDO-ho-CGq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFc-Q7-c4D">
+                                <rect key="frame" x="16" y="284" width="343" height="99"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
+                                <state key="normal" title="Lobby">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="FBx-m7-eYn" kind="show" id="e7k-0W-Xx4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.16762696755339934" green="0.60596917012696849" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="EBL-DJ-KYg" secondAttribute="centerX" id="7Io-Pm-jAD"/>
+                            <constraint firstAttribute="centerX" secondItem="eFc-Q7-c4D" secondAttribute="centerX" id="BHo-yB-Tmd"/>
+                            <constraint firstAttribute="centerY" secondItem="eFc-Q7-c4D" secondAttribute="centerY" id="U9z-Yl-pCj"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="EBL-DJ-KYg" secondAttribute="bottom" constant="20" id="UIZ-zH-BVv"/>
                             <constraint firstItem="vLH-NM-GWp" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="uEm-5a-heh"/>
                             <constraint firstAttribute="centerX" secondItem="vLH-NM-GWp" secondAttribute="centerX" id="vMH-7f-mJq"/>
@@ -180,6 +193,68 @@
             </objects>
             <point key="canvasLocation" x="950.5" y="22.5"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Hgi-S9-pip">
+            <objects>
+                <viewController id="FBx-m7-eYn" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ogx-3M-RVJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="OB2-6B-9Sh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XUl-18-uEO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="People Nearby" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAC-Rb-aCU">
+                                <rect key="frame" x="16" y="28" width="343" height="48"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="40"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43H-aD-EuP">
+                                <rect key="frame" x="16" y="597" width="343" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="3Md-gM-3jo"/>
+                                    <constraint firstAttribute="height" constant="50" id="sQf-Ui-O8U"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="- back -">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="sQf-Ui-O8U"/>
+                                        <exclude reference="3Md-gM-3jo"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="rdl-l5-hhJ"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qrx-ib-Q5B">
+                                <rect key="frame" x="0.0" y="84" width="375" height="505"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.16762696760000001" green="0.60596917009999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="OAC-Rb-aCU" firstAttribute="top" secondItem="Ogx-3M-RVJ" secondAttribute="bottom" constant="8" id="CEp-4E-U8w"/>
+                            <constraint firstItem="43H-aD-EuP" firstAttribute="top" secondItem="qrx-ib-Q5B" secondAttribute="bottom" constant="8" id="HZO-mX-Ncv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qrx-ib-Q5B" secondAttribute="trailing" constant="-16" id="L2c-Bp-tgV"/>
+                            <constraint firstAttribute="centerX" secondItem="43H-aD-EuP" secondAttribute="centerX" id="a3V-e5-PhV"/>
+                            <constraint firstItem="OB2-6B-9Sh" firstAttribute="top" secondItem="43H-aD-EuP" secondAttribute="bottom" constant="20" id="f4i-aB-8MB"/>
+                            <constraint firstItem="qrx-ib-Q5B" firstAttribute="top" secondItem="OAC-Rb-aCU" secondAttribute="bottom" constant="8" id="kQk-n9-CYa"/>
+                            <constraint firstItem="qrx-ib-Q5B" firstAttribute="leading" secondItem="XUl-18-uEO" secondAttribute="leadingMargin" constant="-16" id="nzh-kA-nSP"/>
+                            <constraint firstAttribute="centerX" secondItem="OAC-Rb-aCU" secondAttribute="centerX" id="y6G-do-uCa"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DKw-a6-JuC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="439.5" y="1154.5"/>
+        </scene>
         <!--Peripheral View Controller-->
         <scene sceneID="103-5S-Av1">
             <objects>
@@ -303,6 +378,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="XeY-o3-SCR"/>
+        <segue reference="rdl-l5-hhJ"/>
     </inferredMetricsTieBreakers>
 </document>

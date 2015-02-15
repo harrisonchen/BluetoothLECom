@@ -29,7 +29,7 @@ class SGDCentralViewController: UIViewController {
 
         // Do any additional setup after loading the view.
 
-        bleCentral = BLECentral()
+        bleCentral = BLECentral.sharedInstance
         scanSwitch.on = false
     }
 
