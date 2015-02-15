@@ -60,6 +60,10 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManager(central: CBCentralManager!, didConnectPeripheral peripheral: CBPeripheral!) {
         
         println("Connected to peripheral: \(peripheral)")
+        
+        peripheral.delegate = self
+        
+        peripheral.discoverServices([CBUUID(string: TRANSFER_SERVICE_UUID)])
     }
     
     func peripheral(peripheral: CBPeripheral!, didDiscoverServices error: NSError!) {
@@ -98,7 +102,7 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         var stringFromData = NSString(data: characteristic.value, encoding: NSUTF8StringEncoding)
         
         if (stringFromData! == "EOM") {
-            println("Data Received: \(data)")
+            println("Data Received: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
             data.length = 0
             //            peripheral.setNotifyValue(false, forCharacteristic: characteristic)
             //            centralManager.cancelPeripheralConnection(peripheral)
