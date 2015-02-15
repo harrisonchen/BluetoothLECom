@@ -9,8 +9,6 @@
 import Foundation
 import CoreBluetooth
 
-let blePeripheral = BLEPeripheral()
-
 class BLEPeripheral: NSObject, CBPeripheralManagerDelegate {
     
     var peripheralManager: CBPeripheralManager!

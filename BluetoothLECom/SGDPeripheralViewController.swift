@@ -12,6 +12,7 @@ import CoreBluetooth
 class SGDPeripheralViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet var textView: UITextView!
+    var blePeripheral: BLEPeripheral!
     
     @IBAction func sendData(sender: AnyObject) {
         var dataToSend = textView.text.dataUsingEncoding(NSUTF8StringEncoding)
@@ -23,6 +24,7 @@ class SGDPeripheralViewController: UIViewController, UITextViewDelegate {
         
         super.viewDidLoad()
         
+        blePeripheral = BLEPeripheral()
         textView.delegate = self
     }
     

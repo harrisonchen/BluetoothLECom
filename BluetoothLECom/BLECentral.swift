@@ -9,8 +9,6 @@
 import Foundation
 import CoreBluetooth
 
-let bleCentral = BLECentral()
-
 class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     var centralManager: CBCentralManager!
@@ -22,6 +20,14 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         
         centralManager = CBCentralManager(delegate: self, queue: nil)
         data = NSMutableData()
+        println("initCentral")
+    }
+    
+    class var sharedInstance: BLECentral {
+        struct Static {
+            static let instance: BLECentral = BLECentral()
+        }
+        return Static.instance
     }
     
     func startScan() {

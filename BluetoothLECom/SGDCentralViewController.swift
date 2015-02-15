@@ -13,6 +13,7 @@ class SGDCentralViewController: UIViewController {
     
     @IBOutlet var scanSwitch: UISwitch!
     @IBOutlet var textView: UITextView!
+    var bleCentral: BLECentral!
 
     @IBAction func toggleScan(sender: AnyObject) {
         if scanSwitch.on {
@@ -27,7 +28,8 @@ class SGDCentralViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+
+        bleCentral = BLECentral()
         scanSwitch.on = false
     }
 
