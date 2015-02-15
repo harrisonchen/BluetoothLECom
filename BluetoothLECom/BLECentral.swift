@@ -14,6 +14,7 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     var centralManager: CBCentralManager!
     var discoveredPeripheral: CBPeripheral!
     var data: NSMutableData!
+    var delegate: BLECentralDelegate?
     
     override init() {
         super.init()
@@ -48,14 +49,14 @@ class BLECentral: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: [NSObject : AnyObject]!, RSSI: NSNumber!) {
         
-        println("Discovered: \(peripheral)")
+        delegate?.didDiscoverPeripheral(peripheral)
         
-        if discoveredPeripheral != peripheral {
-            discoveredPeripheral = peripheral
-            
-            println("Connecting to peripheral: \(peripheral)")
-            centralManager.connectPeripheral(peripheral, options: nil)
-        }
+//        if discoveredPeripheral != peripheral {
+//            discoveredPeripheral = peripheral
+//            
+//            println("Connecting to peripheral: \(peripheral)")
+//            centralManager.connectPeripheral(peripheral, options: nil)
+//        }
     }
     
     func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
